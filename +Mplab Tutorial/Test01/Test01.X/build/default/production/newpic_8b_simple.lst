@@ -1,0 +1,38 @@
+MPASM 5.86              NEWPIC_8B_SIMPLE.ASM   2-13-2020  11:06:57         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; TODO INSERT CONFIG CODE HERE USING CONFIG BITS GENERATOR
+                      00002 
+                      00003 RES_VECT  CODE    0x0000            ; processor reset vector
+000000 EF?? F???      00004     GOTO    START                   ; go to beginning of program
+                      00005 
+                      00006 ; TODO ADD INTERRUPTS HERE IF USED
+                      00007 
+                      00008 MAIN_PROG CODE                      ; let linker place main program
+                      00009 
+000000                00010 START
+                      00011  
+000000 0E03           00012  MOVLW 03H
+000002 0F02           00013  ADDLW 02H
+                      00014 
+000004 EF?? F???      00015     GOTO $                          ; loop forever
+                      00016 
+                      00017     END
+MPASM 5.86              NEWPIC_8B_SIMPLE.ASM   2-13-2020  11:06:57         PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+START                             00000000
+_MAIN_PROG_0004                   00000004
+__18LF45K22                       00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

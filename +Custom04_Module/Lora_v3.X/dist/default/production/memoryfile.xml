@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <executable name="dist/default/production\Lora_v3.X.production.hex">
+    <memory name="program">
+      <units>bytes</units>
+      <length>65536</length>
+      <used>36340</used>
+      <free>29196</free>
+    </memory>
+    <memory name="data">
+      <units>bytes</units>
+      <length>3896</length>
+      <used>1672</used>
+      <free>2224</free>
+    </memory>
+  </executable>
+</project>

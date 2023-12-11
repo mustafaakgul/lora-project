@@ -1,0 +1,20 @@
+#t=0.5
+'''
+#data = '{"password": "admin","username": "admin"}'
+#https://enq7tbuzffvjc.x.pipedream.net
+f=open('info.txt', 'a')
+
+whil    session= requests.Session()
+   e(1):
+ retry=Retry(connect=3, backoff_factor=0.5)
+    adapter=HTTPAdapter(max_retries=retry)
+    session.mount('https://localhost:8080/testget/', adapter)
+    session.mount('http://', adapter)
+    session.get(url='https://localhost:8080/testget/')
+    #print(x)
+
+    response = requests.get('https://localhost:8080/testget/', headers=headers)
+    #print(response.text)
+    #f.write(response.text)
+    time.sleep(t)
+'''

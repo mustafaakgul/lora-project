@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="Test10" targetName="Test10" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="402f9eb8-9f5d-498c-be2f-5da3b19b378f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ProjectId" id="1YOGuWuPS09OwUr4QUlXy9P6f6m" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.cpp" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RunManager" selected="CMake Application.Test10">
+    <configuration name="Test10" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Test10" TARGET_NAME="Test10" CONFIG_NAME="Debug" RUN_PATH="$PROJECT_DIR$/main.cpp">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unittests in Test10" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Test10" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Test10" />
+      <item itemvalue="Python tests.Unittests in Test10" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Unittests in Test10" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="402f9eb8-9f5d-498c-be2f-5da3b19b378f" name="Default Changelist" comment="" />
+      <created>1582806449742</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582806449742</updated>
+      <workItem from="1582806451896" duration="1841000" />
+      <workItem from="1582878248155" duration="712000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1300" y="193" key="#Test10" timestamp="1582878323105">
+      <screen x="-1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="-1300" y="193" key="#Test10/0.0.1536.864/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1582878323105" />
+    <state x="496" y="154" key="#Test10/0.0.1536.864/-1920.0.1920.1080@0.0.1536.864" timestamp="1582806592935" />
+    <state x="-1241" y="135" key="#Unittests_in_Test10" timestamp="1582878845602">
+      <screen x="-1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="-1241" y="135" key="#Unittests_in_Test10/0.0.1536.864/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1582878845602" />
+    <state x="-1358" y="250" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582807063446">
+      <screen x="-1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="-1358" y="250" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.864/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1582807063446" />
+    <state x="-1234" y="234" key="FileChooserDialogImpl" timestamp="1582878957775">
+      <screen x="-1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="-1234" y="234" key="FileChooserDialogImpl/0.0.1536.864/-1920.0.1920.1080@-1920.0.1920.1080" timestamp="1582878957775" />
+    <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864/-1920.0.1920.1080@0.0.1536.864" timestamp="1582806591731" />
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1582878256454">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864/-1920.0.1920.1080@0.0.1536.864" timestamp="1582878256454" />
+  </component>
+</project>

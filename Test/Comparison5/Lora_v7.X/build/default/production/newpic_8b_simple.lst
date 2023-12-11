@@ -1,0 +1,20 @@
+
+
+Microchip Technology PIC18 Macro Assembler V1.45 build -152302408 
+                                                                                                           Tue Aug 18 15:30:11 2020
+
+
+     1                           	processor	18LF46K22
+     2                           	opt	pw 132
+     3                           
+     4                           ; TODO INSERT CONFIG CODE HERE USING CONFIG BITS GENERATOR
+     5  0000  EF00' F000'        	goto	START	; go to beginning of program
+     6                           
+     7                           ; TODO ADD INTERRUPTS HERE IF USED
+     8  0004  EF00' F000'        	goto	$	; loop forever
+
+
+Microchip Technology PIC18 Macro Assembler V1.45 build -152302408 
+Symbol Table                                                                                               Tue Aug 18 15:30:11 2020
+
+     START 000000* 

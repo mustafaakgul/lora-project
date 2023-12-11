@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>com.microchip.mplab.nbide.embedded.makeproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/make-project/1">
+            <name>LoRaMote_LCD</name>
+            <creation-uuid>419d763e-234b-4ec8-bbd4-693aa5f6eaef</creation-uuid>
+            <make-project-type>0</make-project-type>
+            <c-extensions>c</c-extensions>
+            <cpp-extensions/>
+            <header-extensions>h</header-extensions>
+            <asminc-extensions/>
+            <sourceEncoding>ISO-8859-1</sourceEncoding>
+            <make-dep-projects>
+                <make-dep-project>../HidBootLoader/MPLAB.X</make-dep-project>
+            </make-dep-projects>
+            <sourceRootList>
+                <sourceRootElem>../Includes/Drivers</sourceRootElem>
+                <sourceRootElem>../Includes/MccGenerated</sourceRootElem>
+                <sourceRootElem>../Includes/Board</sourceRootElem>
+                <sourceRootElem>../Includes/Usb2</sourceRootElem>
+                <sourceRootElem>../Includes/Usb</sourceRootElem>
+                <sourceRootElem>../Includes/Usbold/src</sourceRootElem>
+                <sourceRootElem>../Includes/Usbold/framework/usb</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>Standalone</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>Offset</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>Combined</name>
+                    <type>2</type>
+                </confElem>
+            </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
+        </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>kontol</word>
+        </spellchecker-wordlist>
+    </configuration>
+</project>

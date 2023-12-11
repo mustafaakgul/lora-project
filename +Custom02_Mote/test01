@@ -1,0 +1,295 @@
+/*********************************************************************
+ *
+ *      Microchip LoRa Mote Example Application
+ *
+ *********************************************************************
+ * FileName:        main.c
+ * Dependencies:    See INCLUDES section below
+ * Processor:       PIC18 USB microcontroller
+ * Compiler:        XC8 v1.35+
+ * Company:         Microchip Technology, Inc.
+ *
+ * Software License Agreement
+ *
+ * The software supplied herewith by Microchip Technology Incorporated
+ * (the "Company") for its PICmicro(R) Microcontroller is intended and
+ * supplied to you, the Company's customer, for use solely and
+ * exclusively on Microchip PICmicro Microcontroller products. The
+ * software is owned by the Company and/or its supplier, and is
+ * protected under applicable copyright laws. All rights are reserved.
+ * Any use in violation of the foregoing restrictions may subject the
+ * user to criminal sanctions under applicable laws, as well as to
+ * civil liability for the breach of the terms and conditions of this
+ * license.
+ *
+ * THIS SOFTWARE IS PROVIDED IN AN "AS IS" CONDITION. NO WARRANTIES,
+ * WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
+ * TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE COMPANY SHALL NOT,
+ * IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL OR
+ * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+ *
+ * File version         Date        Comment
+ *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 1.0                  04/01/16    Original.
+
+ ********************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <xc.h>
+#include "mcc.h"
+#include "memory.h"
+#include "usb.h"
+#include "usb_device.h"
+#include "usb_device_cdc.h"
+#include "SSD1306oLED.h"
+#include "MOTEapp.h"
+#include "USBapp.h"
+#include "HardwareProfile.h"
+
+#include <stdint.h>
+#include <string.h>
+#include <stddef.h>
+#include "pin_manager.h"
+#include "eusart.h"
+#include "buttons.h"
+#include "TMRapp.h"
+#include "tmr1.h"
+#include "tmr2.h"
+#include "input.h"
+#include "adc.h"
+
+static void sendDataCommand(const char *string, uint8_t*, uint8_t);
+uint8_t moteApp_addToDataBuffer(const char *, uint8_t);
+static void moteApp_clearBuffers(void);
+void moteApp_add8bToDataBuffer(uint8_t, uint8_t);
+void moteApp_add16bToDataBuffer(uint16_t, uint8_t);
+uint8_t moteApp_addToDataBuffer(const char *, uint8_t);
+static uint8_t dataBuffer[16];
+static uint16_t light = 0;
+static uint16_t temperature = 0;
+static uint8_t randomPortNum = 0;
+uint8_t sizeOfUpdate = 0;
+static uint8_t hexToStr(uint8_t);
+static void EndLine(void);
+static uint8_t responsePortNum[3];
+static uint8_t responseId[16];
+static uint8_t responseData[32];
+
+// Application Types
+typedef enum {USB, MOTE} OPERATION_T;
+OPERATION_T operationType;
+typedef enum {MAIN_STARTUP, MAIN_CDC_MODE, MAIN_HOST_MODE} MAIN_STATE_T;
+MAIN_STATE_T mainState;
+typedef enum {APP_LORA_STARTUP, APP_HOST_RUNNING} APP_STATE_T;
+APP_STATE_T appState;
+// Application Variables
+MOTE_MODE_T moteModeState;
+// Local Functions PROTOTYPES
+
+// Local Functions PROTOTYPES
+static uint8_t powerOnStatus = 0x00;
+static uint8_t dataRateRead = 0x00;
+
+extern void test_powerup(void);
+
+static void EndLine(void)
+{
+    EUSART_Write(0x0D); // CR; Carriage Return
+    EUSART_Write(0x0A); // NF; Line Feed
+}
+static uint8_t hexToStr(uint8_t character)
+{
+    // Mask out Top Nibble
+    character = character & 0x0F;
+    // Check if: 0-9; Else if: A-F
+    if (character < 0x0A)
+    {
+        return character + '0';
+    }
+    else if ( (character >= 0x0A) && (character <= 0x0F) )
+    {
+        return character + '0' + 7;
+    }
+    else
+    {
+        return 0;
+    }
+}
+static void sendDataCommand(const char *string, uint8_t* appData, uint8_t dataLength)
+{
+    // String
+    while (*string)
+    {
+        EUSART_Write(*string++);
+    }
+    // Port No & space
+    for (uint8_t byteCount = 0; byteCount < 3; byteCount++)
+    {
+        EUSART_Write(appData[byteCount]);
+    }
+    //Space
+    EUSART_Write(appData[3]);
+    //Data
+    for (uint8_t byteCount = 4; byteCount < dataLength; byteCount++)
+    {
+        EUSART_Write(hexToStr(appData[byteCount] >> 4));
+        EUSART_Write(hexToStr(appData[byteCount] & 0x0F));
+    }
+    EndLine();
+}
+
+static void moteApp_clearBuffers(void)
+{
+    for (uint8_t counter = 0; counter < 3; counter++)
+    {
+        //responsePortNum[counter] = 0;
+    }
+    for (uint8_t counter = 0; counter < 34; counter++)
+    {
+        //responseId[counter] = 0;
+    }
+    for (uint8_t counter = 0; counter < 32; counter++)
+    {
+        //responseData[counter] = 0;
+    }
+    for (uint8_t counter = 0; counter < sizeof(dataBuffer); counter++)
+    {
+        dataBuffer[counter] = 0;
+    }
+}
+
+void moteApp_add8bToDataBuffer(uint8_t number, uint8_t bufferLocation)
+{
+    dataBuffer[bufferLocation + 2] = '0' + (number % 10);
+    number /= 10;
+    dataBuffer[bufferLocation + 1] = '0' + (number % 10);
+    number /= 10;
+    dataBuffer[bufferLocation] = '0' + (number % 10);
+}
+
+void moteApp_add16bToDataBuffer(uint16_t number, uint8_t bufferLocation)
+{
+    dataBuffer[bufferLocation + 4] = '0' + (number % 10);
+    number /= 10;
+    dataBuffer[bufferLocation + 3] = '0' + (number % 10);
+    number /= 10;
+    dataBuffer[bufferLocation + 2] = '0' + (number % 10);
+    number /= 10;
+    dataBuffer[bufferLocation + 1] = '0' + (number % 10);
+    number /= 10;
+    dataBuffer[bufferLocation] = '0' + (number % 10);
+}
+
+uint8_t moteApp_addToDataBuffer(const char *string, uint8_t bufferLocation)
+{
+    uint8_t index;
+    for(index = 0; index < 6; index++)
+    {
+        if (*string != 0)
+        {
+            dataBuffer[bufferLocation++] = *string++;
+        }
+        else
+        {
+            dataBuffer[bufferLocation] = 0x20;  // Add Space Character to Tail
+            break;
+        }
+    }
+    return index;
+}
+
+// Application Start
+void main(void)
+{
+    // Prepare Application; MCC generated code
+    SYSTEM_Initialize();
+    // Custom Initializations
+    oled_init();         // Dispaly
+    USBDeviceInit();	// usb_device.c.  Initializes USB module SFRs and firmware
+                        // variables to known states.
+    USBDeviceAttach();
+    // MCLR RN Module
+    MOD_RESET_LAT = ENABLE;
+    moteApp_delayms(50);
+    MOD_RESET_LAT = DISABLE;
+    moteApp_delayms(500);
+    // Interrupts Enabled
+    PEIE = 1;
+    GIE = 1;
+    // Test Hardware
+    moduleResync();
+    moteApp_delayms(20);
+    moteApp_clearCommand();
+    moteApp_delayms(20);
+    
+    powerOnStatus = DATAEE_ReadByte(0x00);
+    if ( powerOnStatus != 0x55)
+    {
+        test_powerup();
+        DATAEE_WriteByte(0x00, 0x55);
+    }
+
+    // Default to USB
+    operationType = USB;   // Mode State
+    USBapp_handlerState(USB_STARTUP);
+    // Initial Display Print
+    oled_clear();
+    oled_putString("kontol i ",0,0);
+    oled_putString("   LoRa cony  ",0,1);
+    oled_putString(" IOT Code ",0,3);
+    moteApp_delayms(10000);
+   
+    // Application Loop
+    while(1)
+    {
+           
+        moteApp_delayms(10000);
+        
+        moteApp_clearBuffers();
+        light = 0;
+        temperature = 0;
+        NOP();
+        
+        light = 11;
+        sizeOfUpdate = moteApp_addToDataBuffer(light, 4);
+        
+        temperature = 17; 
+        moteApp_add8bToDataBuffer(temperature, 4 + moteApp_lightStringSize() + 1);
+        
+        randomPortNum = TMR2_ReadTimer();
+        if (!randomPortNum)
+            randomPortNum = 5;
+        else if (randomPortNum > 223)
+            randomPortNum = randomPortNum - 50;
+        
+        moteApp_add8bToDataBuffer(17, 4 + moteApp_lightStringSize() + 1);
+        moteApp_add8bToDataBuffer(randomPortNum, 0);
+        dataBuffer[3] = 0x20;
+        
+        sendDataCommand("mac tx uncnf ", dataBuffer, 12);
+        
+        // Handle USB or Solo Mode
+        switch (operationType)
+        {
+            default:        // Invalid
+                while(1);   // Hold For Error;
+            break;
+            case USB:
+                USBapp_Handler();   // It is held in here.
+                // USB escaped; Cable is unplugged; Change OPERATION mode.
+                operationType = MOTE;
+                MOTEapp_handlerState(MOTE_STARTUP);   // Initial state for startup
+            break;
+            case MOTE:
+                if (moteHandler() == MOTE_SWAP)
+                {
+                    // Return to USB Operation
+                    operationType = USB;   // Mode State
+                    USBapp_handlerState(USB_STARTUP);
+                }
+            break;
+        }
+    }
+}
